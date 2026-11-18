@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/anurati');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+    body {
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #000000;
+      background-size: cover;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    #day {
+      font-family: 'Anurati', sans-serif;
+      font-size: 68px;
+      letter-spacing: 22px;
+      padding-left: 22px;
+      color: #4bdee3;
+      text-shadow: 0 4px 18px rgba(255, 255, 255, 0.35);
+      margin-bottom: 12px;
+    }
+
+    #date,
+    #time {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #e20000;
+      text-shadow: 0 2px 10px rgb(255, 255, 255);
+    }
+
+    #date {
+      margin-bottom: 8px;
+    }
+
+    #time {
+      margin-bottom: 34px;
+    }
+
+    #jee-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: #43cace;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.774);
+      margin-bottom: 8px;
+    }
+
+    #countdown {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(220, 220, 220, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="day"></div>
+  <div id="date"></div>
+  <div id="time"></div>
+
+  <div id="jee-label">JEE MAIN • 20 JANUARY, 2027</div>
+  <div id="countdown"></div>
+
+  <script>
+    const days = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+    const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+      "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+    const targetDate = new Date("2027-01-20T09:00:00+05:30").getTime();
+
+    function updateAll() {
+      const now = new Date();
+
+      // Clock
+      document.getElementById('day').textContent = days[now.getDay()];
+      document.getElementById('date').textContent =
+        `${String(now.getDate()).padStart(2, '0')} ${months[now.getMonth()]}, ${now.getFullYear()}.`;
+      document.getElementById('time').textContent =
+        `- ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} -`;
+
+      // JEE Countdown
+      const diff = targetDate - now.getTime();
+      if (diff <= 0) {
+        document.getElementById('countdown').textContent = "EXAM DAY IS HERE";
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+      const m = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+      const s = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+
+      document.getElementById('countdown').textContent = `${d}D  :  ${h}H  :  ${m}M  :  ${s}S`;
+    }
+
+    updateAll();
+    setInterval(updateAll, 1000);
+  </script>
+</body>
+
+</html>
